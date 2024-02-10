@@ -10,6 +10,8 @@ npm install cognito-at-bleeding-edge
 ## Quickstart
 
 ```typescript
+import { DefaultAuthenticator } from 'cognito-at-bleeding-edge';
+
 const authenticator = new DefaultAuthenticator({
     cognitoConfiguration: {
         userPoolId: "us-east-1_abcdef123",
