@@ -13,6 +13,7 @@
     "@middy/core": "^3.4.0",
     "@middy/http-json-body-parser": "^3.4.0",
     "aws-jwt-verify": "^4.0.0",
+    "cognito-at-bleeding-edge": "0.0.6",
     "pino": "^8.14.1"
   },
   "devDependencies": {

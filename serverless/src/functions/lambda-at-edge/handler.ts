@@ -8,7 +8,8 @@ import {
     USER_POOL_APP_CLIENT_SECRET,
 } from './configuration';
 
-import { DefaultAuthenticator } from '../../../../library/src/DefaultAuthenticator';
+// import { DefaultAuthenticator } from '../../../../library/src/';
+import { DefaultAuthenticator } from 'cognito-at-bleeding-edge';
 
 const authenticator = new DefaultAuthenticator({
     cognitoConfiguration: {
