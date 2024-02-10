@@ -1,6 +1,39 @@
 
 # cognito-at-bleeding-ege
 
+## Install
+
+```bash
+npm install cognito-at-bleeding-edge
+```
+
+## Quickstart
+
+```typescript
+const authenticator = new DefaultAuthenticator({
+    cognitoConfiguration: {
+        userPoolId: "us-east-1_abcdef123",
+        userPoolDomain: "some-cognito-pool-domain.auth.us-east-1.amazoncognito.com",
+        userPoolAppId: "123456789abcdefghijklmnopq",
+        userPoolAppSecret: undefined,
+    },
+});
+
+export const authenticationHandler = ({ event }: { event: CloudFrontRequestEvent }) => {
+    return authenticator.handle(event);
+};
+
+export const lambdaOriginS3 = async (event: CloudFrontRequestEvent) => {
+    const response = await authenticationHandler({ event });
+
+    // NOTE: Intercept Response & Chain Handler(s)
+    //  e.g., Perform Path Rewrite for `/` => `/index.html` Behavior...
+    //  e.g., ???
+
+    return response;
+};
+```
+
 ## Why `cognito-at-bleeding-edge`
 
 Well, the default library is `cognito-at-edge`, and it kind-of sucks. As a library, it spits in the face of several decades of good practice. Single-Responsiblitity and Composability of the inner-workings of the library? No, it's a God-class with a ball-of-yarn approach to software.
