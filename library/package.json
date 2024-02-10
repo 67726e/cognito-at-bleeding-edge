@@ -1,0 +1,44 @@
+{
+  "name": "cognito-at-bleeding-edge",
+  "version": "0.0.1",
+  "description": "Cognito Backed, Lambda@Edge Enforced Authentication for your CloudFront Distribution",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "/dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "lint": "eslint --fix ./src/",
+    "test": "jest --config jest.config.js --coverage"
+  },
+  "author": "Glenn Nelson",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "aws-jwt-verify": "^4.0.0",
+    "axios": "^1.5.0"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.89",
+    "@types/jest": "^29.5.6",
+    "@types/node": "^20.6.5",
+    "@typescript-eslint/eslint-plugin": "^5.9.1",
+    "@typescript-eslint/parser": "^5.9.1",
+    "eslint": "^7.32.0",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.1",
+    "typescript": "^4.5.4"
+  },
+  "engines": {
+    "node": ">=10.0.0"
+  },
+  "keywords": [
+    "aws",
+    "cognito",
+    "userpool",
+    "cloudfront",
+    "distribution",
+    "lambda",
+    "edge"
+  ]
+}

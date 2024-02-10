@@ -1,0 +1,67 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DefaultCloudFrontResponseBuilder buildCognitoRedirectResponse 1`] = `
+{
+  "headers": {
+    "cache-control": [
+      {
+        "key": "Cache-Control",
+        "value": "no-cache, no-store, max-age=0, must-revalidate",
+      },
+    ],
+    "location": [
+      {
+        "key": "Location",
+        "value": "https://cloudfront-pool-domain.auth.us-east-1.amazoncognito.com/authorize?client_id=1hoa20u57ikp7nafi8ks287uba&redirect_uri=https://d20o2ten651kje.cloudfront.net&response_type=code&state=/        ",
+      },
+    ],
+    "pragma": [
+      {
+        "key": "Pragma",
+        "value": "no-cache",
+      },
+    ],
+  },
+  "status": "302",
+}
+`;
+
+exports[`DefaultCloudFrontResponseBuilder buildCookieRedirectResponse 1`] = `
+{
+  "headers": {
+    "cache-control": [
+      {
+        "key": "Cache-Control",
+        "value": "no-cache, no-store, max-age=0, must-revalidate",
+      },
+    ],
+    "location": [
+      {
+        "key": "Location",
+        "value": "",
+      },
+    ],
+    "pragma": [
+      {
+        "key": "Pragma",
+        "value": "no-cache",
+      },
+    ],
+    "set-cookie": [
+      {
+        "key": "Set-Cookie",
+        "value": "cloudfront.accessToken=MOCK_ACCESS_TOKEN; Domain=d20o2ten651kje.cloudfront.net; Path=/; Expires=Mon, 21 Oct 2024 20:28:19 GMT; Secure",
+      },
+      {
+        "key": "Set-Cookie",
+        "value": "cloudfront.idToken=MOCK_ID_TOKEN; Domain=d20o2ten651kje.cloudfront.net; Path=/; Expires=Mon, 21 Oct 2024 20:28:19 GMT; Secure",
+      },
+      {
+        "key": "Set-Cookie",
+        "value": "cloudfront.refreshToken=MOCK_REFRESH_TOKEN; Domain=d20o2ten651kje.cloudfront.net; Path=/; Expires=Mon, 21 Oct 2024 20:28:19 GMT; Secure",
+      },
+    ],
+  },
+  "status": "302",
+}
+`;
