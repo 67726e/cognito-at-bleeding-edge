@@ -1,6 +1,10 @@
 {
   "name": "cognito-at-bleeding-edge",
-  "version": "0.0.1",
+  "version": "0.0.5",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/67726e/cognito-at-bleeding-edge"
+  },
   "description": "Cognito Backed, Lambda@Edge Enforced Authentication for your CloudFront Distribution",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -8,7 +12,7 @@
     "/dist"
   ],
   "scripts": {
-    "build": "tsc",
+    "build": "cp ../README.md . && tsc",
     "lint": "eslint --fix ./src/",
     "test": "jest --config jest.config.js --coverage"
   },
