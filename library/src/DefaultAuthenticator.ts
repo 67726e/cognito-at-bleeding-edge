@@ -1,5 +1,5 @@
 import { CloudFrontRequestEvent, CloudFrontRequestResult } from "aws-lambda";
-import { Authenticator, DefaultAuthenticatorConfiguration, DefaultAuthenticatorCookieConfiguration } from "./Authenticator";
+import { Authenticator, AuthenticatorResult, DefaultAuthenticatorConfiguration, DefaultAuthenticatorCookieConfiguration } from "./Authenticator";
 import { DefaultCloudFrontResponseBuilder } from "./CloudFrontResponseBuilder";
 import { DefaultCognitoClient } from "./CognitoClient";
 import { DefaultCognitoRequestBuilder } from "./CognitoRequestBuilder";
@@ -59,7 +59,7 @@ export class DefaultAuthenticator {
         };
     }
 
-    async handle(event: CloudFrontRequestEvent): Promise<CloudFrontRequestResult> {
+    async handle(event: CloudFrontRequestEvent): Promise<AuthenticatorResult> {
         return this.authenticator.handle(event);
     }
 }

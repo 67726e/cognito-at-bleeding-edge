@@ -25,14 +25,14 @@ export const authenticationHandler = ({ event }: { event: CloudFrontRequestEvent
     return authenticator.handle(event);
 };
 
-export const lambdaOriginS3 = async (event: CloudFrontRequestEvent) => {
+export const lambdaOriginS3 = async (event: CloudFrontRequestEvent): Promise<CloudFrontRequestResult> => {
     const response = await authenticationHandler({ event });
 
     // NOTE: Intercept Response & Chain Handler(s)
     //  e.g., Perform Path Rewrite for `/` => `/index.html` Behavior...
-    //  e.g., ???
+    //  e.g., `if (response.isAuthenticated) { ... }`
 
-    return response;
+    return response.actual;
 };
 ```
 

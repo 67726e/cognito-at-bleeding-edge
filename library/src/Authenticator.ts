@@ -24,6 +24,11 @@ export interface DefaultAuthenticatorConfiguration {
   cookieConfiguration?: DefaultAuthenticatorCookieConfiguration;
 }
 
+export type AuthenticatorResult = {
+  actual: CloudFrontRequestResult,
+  isAuthenticated: boolean,
+};
+
 export class Authenticator {
   constructor(
     private readonly cloudFrontResponseBuilder: CloudFrontResponseBuilder,
@@ -106,7 +111,7 @@ export class Authenticator {
    * @param  {Object}  event Lambda@Edge event.
    * @return {Promise} CloudFront response.
    */
-  async handle(event: CloudFrontRequestEvent): Promise<CloudFrontRequestResult> {
+  async handle(event: CloudFrontRequestEvent): Promise<AuthenticatorResult> {
     this.logger.debug({ msg: 'Handling Lambda@Edge Event', event });
 
     const { request } = event.Records[0].cf;
@@ -140,14 +145,18 @@ export class Authenticator {
 
         this.logger.info({ msg: 'Forwarding request', path: request.uri, identity, access });
 
-        return request;
+        return { actual: request, isAuthenticated: true, };
       } catch (err) {
         // 3. Fetch Token(s) from Refresh Token
         if (tokens.refreshToken) {
           this.logger.debug({ msg: 'Verifying accessToken, idToken failed, verifying refresh token instead...', tokens, err });
 
           return await this.cognitoClient.postRefreshTokenExchange(redirectURI, tokens.refreshToken)
-            .then(tokens => this._createSetCookieRedirectResponse(tokens, cloudFrontDomain, request.uri));
+            .then(tokens => {
+              const result = this._createSetCookieRedirectResponse(tokens, cloudFrontDomain, request.uri);
+
+              return { actual: result, isAuthenticated: false, };
+            });
         } else {
           throw err;
         }
@@ -158,10 +167,16 @@ export class Authenticator {
       if (requestParams.code) {
         // 4. Get Authentication Code from Query Parameter(s), Exchange for Token(s)
         return await this.cognitoClient.postAuthorizationCodeExchange(redirectURI, requestParams.code as string)
-          .then(tokens => this._createSetCookieRedirectResponse(tokens, cloudFrontDomain, requestParams.state as string));
+          .then(tokens => {
+            const result = this._createSetCookieRedirectResponse(tokens, cloudFrontDomain, requestParams.state as string);
+
+            return { actual: result, isAuthenticated: false, };
+          });
       } else {
         // 5. Return Redirect to Cognito Authentication Pool
-        return this._createCognitoAuthorizationRedirectResponse(request, redirectURI);
+        const result = this._createCognitoAuthorizationRedirectResponse(request, redirectURI);
+
+        return { actual: result, isAuthenticated: false, };
       }
     }
   }
