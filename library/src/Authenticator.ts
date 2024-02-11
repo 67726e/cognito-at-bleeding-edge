@@ -1,11 +1,11 @@
 import { CloudFrontRequest, CloudFrontRequestEvent, CloudFrontRequestResult } from 'aws-lambda';
 import { parse } from 'querystring';
 
-import { CloudFrontResponseBuilder, } from './CloudFrontResponseBuilder';
-import { CognitoClient, } from './CognitoClient';
-import { CognitoRequestBuilder, } from './CognitoRequestBuilder';
+import { CloudFrontResponseBuilder } from './CloudFrontResponseBuilder';
+import { CognitoClient } from './CognitoClient';
+import { CognitoRequestBuilder } from './CognitoRequestBuilder';
 import { SameSite, SAME_SITE_VALUES } from './cookie-at-bleeding-edge';
-import { CookieRepository, } from './CookieRepository';
+import { CookieRepository } from './CookieRepository';
 import { Logger } from './Logger';
 import { CognitoConfiguration, CookieHeaders, Tokens } from './types';
 
@@ -28,7 +28,7 @@ export enum AuthenticatorResultType {
   FORWARD_AUTHENTICATED_REQUEST,
   REDIRECT_SET_COOKIE,
   REDIRECT_COGNITO_AUTHORIZATION,
-};
+}
 
 export type AuthenticatorResult = {
   actual: CloudFrontRequestResult,
@@ -152,7 +152,7 @@ export class Authenticator {
 
         this.logger.info({ msg: 'Forwarding request', path: request.uri, identity, access });
 
-        return { actual: request, isAuthenticated: true, type: AuthenticatorResultType.FORWARD_AUTHENTICATED_REQUEST, };
+        return { actual: request, isAuthenticated: true, type: AuthenticatorResultType.FORWARD_AUTHENTICATED_REQUEST };
       } catch (err) {
         // 3. Fetch Token(s) from Refresh Token
         if (tokens.refreshToken) {
@@ -162,7 +162,7 @@ export class Authenticator {
             .then(tokens => {
               const result = this._createSetCookieRedirectResponse(tokens, cloudFrontDomain, request.uri);
 
-              return { actual: result, isAuthenticated: false, type: AuthenticatorResultType.REDIRECT_SET_COOKIE, };
+              return { actual: result, isAuthenticated: false, type: AuthenticatorResultType.REDIRECT_SET_COOKIE };
             });
         } else {
           throw err;
@@ -177,13 +177,13 @@ export class Authenticator {
           .then(tokens => {
             const result = this._createSetCookieRedirectResponse(tokens, cloudFrontDomain, requestParams.state as string);
 
-            return { actual: result, isAuthenticated: false, type: AuthenticatorResultType.REDIRECT_SET_COOKIE, };
+            return { actual: result, isAuthenticated: false, type: AuthenticatorResultType.REDIRECT_SET_COOKIE };
           });
       } else {
         // 5. Return Redirect to Cognito Authentication Pool
         const result = this._createCognitoAuthorizationRedirectResponse(request, redirectURI);
 
-        return { actual: result, isAuthenticated: false, type: AuthenticatorResultType.REDIRECT_COGNITO_AUTHORIZATION, };
+        return { actual: result, isAuthenticated: false, type: AuthenticatorResultType.REDIRECT_COGNITO_AUTHORIZATION };
       }
     }
   }
